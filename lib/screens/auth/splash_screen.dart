@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:contact_x/app.dart';
 import 'package:contact_x/theme/app_images.dart';
-import 'package:contact_x/utils/my_sharedpreference.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -38,9 +37,9 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> redirect() async {
-    final token = await MySharedPreferences.instance.getStringValue(
-      "access_token",
-    );
+    // final token = await MySharedPreferences.instance.getStringValue(
+    //   "access_token",
+    // );
 
     if (!mounted) return;
 
