@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "292684172615",
+    "project_id": "contactx-4cde3",
+    "storage_bucket": "contactx-4cde3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292684172615:android:a310ec067be7835de41062",
+        "android_client_info": {
+          "package_name": "com.example.contact_x"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292684172615-dssubrqq7naf3cv35rgtkv7ls6es47os.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.contact_x",
+            "certificate_hash": "ca6a1139ec91c879c85b936296b108512cc787cc"
+          }
+        },
+        {
+          "client_id": "292684172615-hd3ph5dd8tk9bv2bji0ubudi2ijt2e9s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.contact_x",
+            "certificate_hash": "17364c5b2458b1e2c72b9896379abf6bd765dbf9"
+          }
+        },
+        {
+          "client_id": "292684172615-namrot6sng239903i7782s7ren136due.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc3vH4RmSiHEMI2gcxmhIPSNNb92P-98I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292684172615-namrot6sng239903i7782s7ren136due.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
