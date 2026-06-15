@@ -1,47 +1,60 @@
-# Houzeo Contacts App
+# ContactX
 
-A modern Contact Management application built using Flutter, GetX, Firebase Firestore, and Firebase Anonymous Authentication.
-
-This application allows users to create, manage, search, and organize contacts with a clean Material 3 user interface and real-time cloud storage.
-
----
+A Flutter contact management application built with GetX, Firebase Firestore, Repository Pattern, and Clean Architecture principles.
 
 ## Features
 
-### Contact Management
+- Create Contact
+- Update Contact
+- Delete Contact
+- View Contact Details
+- Mark / Unmark Favourite Contacts
+- Real-time Firestore Synchronization
+- Reactive UI using GetX
+- Unit Tested Business Logic
 
-- View all contacts
-- Add new contacts
-- Edit existing contacts
-- Delete contacts with confirmation dialog
-- View detailed contact information
+---
 
-### Favorites
+## Architecture
 
-- Mark contacts as favorite
-- Remove contacts from favorites
-- Dedicated Favorites tab
+The project follows a layered architecture to improve maintainability, scalability, and testability.
 
-### Search & Sorting
+```text
+Presentation Layer
+│
+├── UI
+├── Controllers
+│
+Domain Layer
+│
+├── Entities
+├── Repository Contracts
+├── Use Cases
+│
+Data Layer
+│
+├── Models
+├── Repository Implementations
+├── Firebase Data Sources
+│
+Firebase Firestore
+```
 
-- Search contacts by name
-- Real-time filtering
-- Alphabetical (A-Z) sorting
+### Flow
 
-### Calling Functionality
-
-- Call contacts directly from the contact detail screen
-
-### Cloud Integration
-
-- Firebase Firestore integration
-- Real-time data synchronization
-- User-specific contact storage
-
-### Authentication
-
-- Firebase Anonymous Authentication
-- Automatic user identification without requiring login
+```text
+UI
+ ↓
+Controller
+ ↓
+UseCase
+ ↓
+Repository
+ ↓
+DataSource
+ ↓
+Firestore
+```
 
 ---
 
@@ -49,104 +62,97 @@ This application allows users to create, manage, search, and organize contacts w
 
 - Flutter
 - Dart
-- GetX (State Management & Navigation)
+- GetX
 - Firebase Firestore
-- Firebase Authentication
-- Material 3
+- Repository Pattern
+- Clean Architecture
+- Mocktail
+- Flutter Test
 
 ---
 
-## Architecture
-
-The application follows a clean and scalable architecture:
+## Project Structure
 
 ```text
 lib/
-
-├── controllers/
-├── models/
-├── screens/
-├── services/
-├── widgets/
+│
+├── bindings/
+│
+├── core/
+│
+├── features/
+│   └── contacts/
+│       ├── data/
+│       │   ├── datasource/
+│       │   ├── models/
+│       │   └── repositories/
+│       │
+│       ├── domain/
+│       │   ├── entities/
+│       │   ├── repositories/
+│       │   └── usecases/
+│       │
+│       └── presentation/
+│           ├── controllers/
+│           ├── pages/
+│           └── widgets/
+│
 └── main.dart
 ```
 
-### Layers
+---
 
-- Models → Data representation
-- Services → Firebase and external services
-- Controllers → Business logic and state management
-- Screens → UI implementation
-- Widgets → Reusable UI components
+## State Management
+
+GetX is used for:
+
+- State Management
+- Dependency Injection
+- Navigation
+- Reactive UI Updates
 
 ---
 
-## Firebase Structure
+## Testing
 
-```text
-users
- └── {uid}
-      └── contacts
-           └── {contactId}
-```
+The following unit tests have been implemented:
 
-Each user has their own isolated contact collection.
+- ContactModel Serialization Tests
+- AddContactUseCase Tests
+- UpdateContactUseCase Tests
+- DeleteContactUseCase Tests
+- GetContactsUseCase Tests
 
----
-
-## Screens
-
-### Contacts Screen
-
-- Display all contacts
-- Search contacts
-- Favorite / Unfavorite contacts
-
-### Add Contact Screen
-
-- Create a new contact
-- Form validation
-
-### Edit Contact Screen
-
-- Update contact information
-- Validation support
-
-### Contact Detail Screen
-
-- View complete contact information
-- Call contact
-- Edit contact
-- Delete contact
-
-### Favorites Screen
-
-- View all favorite contacts
-
----
-
-## Installation
-
-### Clone Repository
+Run tests:
 
 ```bash
-git clone <repository-url>
+flutter test
 ```
+
+---
+
+## Static Analysis
+
+Run code analysis:
+
+```bash
+flutter analyze
+```
+
+Format code:
+
+```bash
+dart format lib test
+```
+
+---
+
+## Getting Started
 
 ### Install Dependencies
 
 ```bash
 flutter pub get
-```
-
-### Configure Firebase
-
-Add your Firebase configuration files:
-
-Android:
-
-```text
-android/app/google-services.json
 ```
 
 ### Run Application
@@ -163,34 +169,21 @@ flutter build apk --release
 
 ---
 
-## Key Highlights
+## Key Improvements
 
-- Clean GetX Architecture
-- Firebase Firestore Integration
-- Firebase Anonymous Authentication
-- Real-Time Data Updates
-- Search & Filtering
-- Favorites Management
-- Contact CRUD Operations
-- Material 3 Design
-- Scalable Folder Structure
+This version includes:
 
----
-
-## Assignment Deliverables
-
-Included:
-
-- Source Code
-- Firebase Integration
-- APK Build
-- Documentation
-- Screenshots
+- Improved project structure
+- Use Case based business logic separation
+- Repository abstraction
+- Enhanced maintainability
+- Unit testing coverage
+- Better scalability for future features
 
 ---
 
-## Developer
+## Author
 
 Abhay Sananse
 
-Flutter Developer | 4.6+ Years Experience
+Senior Flutter Developer
