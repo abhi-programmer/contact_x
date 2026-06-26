@@ -1,161 +1,164 @@
-import 'dart:async';
-
-import 'package:contact_x/features/contacts/domain/entities/contact.dart';
-import 'package:contact_x/features/contacts/domain/usecases/add_contact.dart';
-import 'package:contact_x/features/contacts/domain/usecases/delete_contact.dart';
-import 'package:contact_x/features/contacts/domain/usecases/get_contacts.dart';
-import 'package:contact_x/features/contacts/domain/usecases/get_favourite_contacts.dart';
-import 'package:contact_x/features/contacts/domain/usecases/toggle_favourite.dart';
-import 'package:contact_x/features/contacts/domain/usecases/update_contact.dart';
 import 'package:get/get.dart';
 
+import '../../domain/entities/contact.dart';
+import '../../domain/usecases/check_contact_permission.dart';
+import '../../domain/usecases/request_contact_permission.dart';
+import '../../domain/usecases/get_device_contacts.dart';
+
 class ContactController extends GetxController {
-  final AddContact addContactUseCase;
-  final UpdateContact updateContactUseCase;
-  final DeleteContact deleteContactUseCase;
-  final GetContacts getContactsUseCase;
-  final GetFavouriteContacts getFavouriteContactsUseCase;
-  final ToggleFavourite toggleFavouriteUseCase;
+  final CheckContactPermission checkContactPermissionUseCase;
+  final RequestContactPermission requestContactPermissionUseCase;
+  final GetDeviceContacts getDeviceContactsUseCase;
 
   ContactController({
-    required this.addContactUseCase,
-    required this.updateContactUseCase,
-    required this.deleteContactUseCase,
-    required this.getContactsUseCase,
-    required this.getFavouriteContactsUseCase,
-    required this.toggleFavouriteUseCase,
+    required this.checkContactPermissionUseCase,
+    required this.requestContactPermissionUseCase,
+    required this.getDeviceContactsUseCase,
   });
 
-  /// Loading
-
   final RxBool isLoading = false.obs;
-
-  /// Search
-
-  final RxString searchQuery = ''.obs;
-
-  /// Contacts
+  final RxBool hasPermission = false.obs;
+  final RxString permissionMessage = ''.obs;
 
   final RxList<Contact> contacts = <Contact>[].obs;
-
-  final RxList<Contact> favouriteContacts = <Contact>[].obs;
-
-  StreamSubscription? _contactsSubscription;
-  StreamSubscription? _favouriteSubscription;
+  final RxString searchQuery = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-
-    _listenContacts();
-    _listenFavouriteContacts();
+    initializeContacts();
   }
 
-  void _listenContacts() {
-    _contactsSubscription = getContactsUseCase().listen(
-      (data) {
-        contacts.assignAll(data);
-      },
-      onError: (error) {
-        Get.snackbar("Error", error.toString());
-      },
-    );
-  }
+  // Future<void> initializeContacts() async {
+  //   isLoading.value = true;
 
-  void _listenFavouriteContacts() {
-    _favouriteSubscription = getFavouriteContactsUseCase().listen(
-      (data) {
-        favouriteContacts.assignAll(data);
-      },
-      onError: (error) {
-        Get.snackbar("Error", error.toString());
-      },
-    );
-  }
+  //   try {
+  //     final granted = await checkContactPermissionUseCase();
 
-  Future<void> addContact(Contact contact) async {
-    try {
-      isLoading.value = true;
+  //     if (granted) {
+  //       hasPermission.value = true;
+  //       permissionMessage.value = '';
+  //       await loadContacts();
+  //     } else {
+  //       final requested = await requestContactPermissionUseCase();
 
-      await addContactUseCase(contact);
+  //       if (requested) {
+  //         hasPermission.value = true;
+  //         permissionMessage.value = '';
+  //         await loadContacts();
+  //       } else {
+  //         hasPermission.value = false;
+  //         permissionMessage.value =
+  //             'Contact permission denied. Please allow access to continue.';
+  //       }
+  //     }
+  //   } catch (e) {
+  //     hasPermission.value = false;
+  //     permissionMessage.value =
+  //         'Something went wrong while accessing contacts.';
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+  Future<void> initializeContacts() async {
+  isLoading.value = true;
 
-      Get.snackbar("Success", "Contact added successfully");
-    } catch (e) {
-      Get.snackbar("Error", e.toString());
-    } finally {
-      isLoading.value = false;
+  try {
+    final granted = await checkContactPermissionUseCase();
+
+    if (granted) {
+      hasPermission.value = true;
+      permissionMessage.value = '';
+      await loadContacts();
+    } else {
+      hasPermission.value = false;
+      permissionMessage.value =
+          'Contact permission denied. Please allow access to continue.';
     }
+  } catch (e) {
+    hasPermission.value = false;
+    permissionMessage.value =
+        'Something went wrong while accessing contacts.';
+  } finally {
+    isLoading.value = false;
   }
+}
 
-  Future<void> updateContact(Contact contact) async {
-    try {
-      isLoading.value = true;
+  // Future<void> retryPermission() async {
+  //   isLoading.value = true;
 
-      await updateContactUseCase(contact);
+  //   try {
+  //     final granted = await requestContactPermissionUseCase();
 
-      Get.snackbar("Success", "Contact updated successfully");
-    } catch (e) {
-      Get.snackbar("Error", e.toString());
-    } finally {
-      isLoading.value = false;
+  //     if (granted) {
+  //       hasPermission.value = true;
+  //       permissionMessage.value = '';
+  //       await loadContacts();
+  //     } else {
+  //       hasPermission.value = false;
+  //       permissionMessage.value =
+  //           'Contact permission denied. Please allow access to continue.';
+  //     }
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+  Future<void> retryPermission() async {
+  isLoading.value = true;
+
+  try {
+    final granted = await requestContactPermissionUseCase();
+
+    if (granted) {
+      hasPermission.value = true;
+      permissionMessage.value = '';
+      await loadContacts();
+    } else {
+      hasPermission.value = false;
+      permissionMessage.value =
+          'Contact permission denied. Please allow access to continue.';
     }
+  } catch (e) {
+    hasPermission.value = false;
+    permissionMessage.value =
+        'Unable to request contacts permission.';
+  } finally {
+    isLoading.value = false;
   }
-
-  Future<void> deleteContact(String contactId) async {
-    try {
-      isLoading.value = true;
-
-      await deleteContactUseCase(contactId);
-
-      Get.snackbar("Success", "Contact deleted successfully");
-    } catch (e) {
-      Get.snackbar("Error", e.toString());
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  Future<void> toggleFavourite(Contact contact) async {
-    try {
-      await toggleFavouriteUseCase(contact);
-    } catch (e) {
-      Get.snackbar("Error", e.toString());
-    }
-  }
-
-  Future<void> reloadContacts() async {
-    await _contactsSubscription?.cancel();
-
-    await _favouriteSubscription?.cancel();
-
-    contacts.clear();
-
-    favouriteContacts.clear();
-
-    _listenContacts();
-
-    _listenFavouriteContacts();
-  }
+}
 
   List<Contact> get filteredContacts {
-    final query = searchQuery.value.toLowerCase().trim();
+  final query = searchQuery.value.trim().toLowerCase();
 
-    if (query.isEmpty) {
-      return contacts;
-    }
-
-    return contacts.where((contact) {
-      return contact.fullName.toLowerCase().contains(query) ||
-          contact.phone.toLowerCase().contains(query);
-    }).toList();
+  if (query.isEmpty) {
+    final sorted = [...contacts];
+    sorted.sort(
+      (a, b) => a.fullName.toLowerCase().compareTo(
+            b.fullName.toLowerCase(),
+          ),
+    );
+    return sorted;
   }
 
-  @override
-  void onClose() {
-    _contactsSubscription?.cancel();
+  final filtered = contacts.where((contact) {
+    return contact.fullName.toLowerCase().contains(query) ||
+        contact.phone.toLowerCase().contains(query) ||
+        contact.email.toLowerCase().contains(query) ||
+        contact.company.toLowerCase().contains(query) ||
+        contact.jobTitle.toLowerCase().contains(query);
+  }).toList();
 
-    _favouriteSubscription?.cancel();
+  filtered.sort(
+    (a, b) => a.fullName.toLowerCase().compareTo(
+          b.fullName.toLowerCase(),
+        ),
+  );
 
-    super.onClose();
+  return filtered;
+}
+
+  Future<void> loadContacts() async {
+    final result = await getDeviceContactsUseCase();
+    contacts.assignAll(result);
   }
 }

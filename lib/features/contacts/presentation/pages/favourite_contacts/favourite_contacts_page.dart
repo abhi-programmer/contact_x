@@ -1,226 +1,206 @@
-import 'package:contact_x/features/contacts/presentation/controllers/contact_controller.dart';
-import 'package:contact_x/features/contacts/presentation/pages/add_edit_contact/add_edit_contact_page.dart';
-import 'package:contact_x/features/contacts/presentation/pages/contact_detail/contact_detail_page.dart';
-import 'package:contact_x/features/contacts/presentation/widgets/contact_card.dart';
-import 'package:contact_x/features/contacts/presentation/widgets/empty_contact_widget.dart';
-import 'package:contact_x/features/contacts/presentation/widgets/selection_toolbar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
+// import 'package:contact_x/features/contacts/presentation/controllers/contact_controller.dart';
+// import 'package:contact_x/features/contacts/presentation/pages/contact_detail/contact_detail_page.dart';
+// import 'package:contact_x/features/contacts/presentation/widgets/contact_card.dart';
+// import 'package:contact_x/features/contacts/presentation/widgets/empty_contact_widget.dart';
+// import 'package:contact_x/features/contacts/presentation/widgets/selection_toolbar.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+// import 'package:flutter_slidable/flutter_slidable.dart';
+// import 'package:get/get.dart';
 
-class FavouriteContactsPage extends StatefulWidget {
-  const FavouriteContactsPage({super.key});
+// class FavouriteContactsPage extends StatefulWidget {
+//   const FavouriteContactsPage({super.key});
 
-  @override
-  State<FavouriteContactsPage> createState() => _FavouriteContactsPageState();
-}
+//   @override
+//   State<FavouriteContactsPage> createState() => _FavouriteContactsPageState();
+// }
 
-class _FavouriteContactsPageState extends State<FavouriteContactsPage> {
-  final ContactController contactController = Get.find<ContactController>();
+// class _FavouriteContactsPageState extends State<FavouriteContactsPage> {
+//   final ContactController contactController = Get.find<ContactController>();
 
-  bool selectionMode = false;
+//   bool selectionMode = false;
 
-  final Set<int> selectedIndexes = {};
+//   final Set<int> selectedIndexes = {};
 
-  void toggleSelection(int index) {
-    setState(() {
-      if (selectedIndexes.contains(index)) {
-        selectedIndexes.remove(index);
-      } else {
-        selectedIndexes.add(index);
-      }
+//   void toggleSelection(int index) {
+//     setState(() {
+//       if (selectedIndexes.contains(index)) {
+//         selectedIndexes.remove(index);
+//       } else {
+//         selectedIndexes.add(index);
+//       }
 
-      selectionMode = selectedIndexes.isNotEmpty;
-    });
-  }
+//       selectionMode = selectedIndexes.isNotEmpty;
+//     });
+//   }
 
-  void startSelection(int index) {
-    setState(() {
-      selectionMode = true;
-      selectedIndexes.add(index);
-    });
-  }
+//   void startSelection(int index) {
+//     setState(() {
+//       selectionMode = true;
+//       selectedIndexes.add(index);
+//     });
+//   }
 
-  void clearSelection() {
-    setState(() {
-      selectionMode = false;
-      selectedIndexes.clear();
-    });
-  }
+//   void clearSelection() {
+//     setState(() {
+//       selectionMode = false;
+//       selectedIndexes.clear();
+//     });
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      final contacts = [...contactController.favouriteContacts];
+//   @override
+//   Widget build(BuildContext context) {
+//     return Obx(() {
+//       final contacts = [...contactController.favouriteContacts];
 
-      if (contacts.isEmpty) {
-        return const EmptyContactWidget(
-          icon: Icons.favorite_border,
-          title: "No Favourite Contacts",
-          subtitle: "Add contacts to favourites to see them here.",
-        );
-      }
+//       if (contacts.isEmpty) {
+//         return const EmptyContactWidget(
+//           icon: Icons.favorite_border,
+//           title: "No Favourite Contacts",
+//           subtitle: "Add contacts to favourites to see them here.",
+//         );
+//       }
 
-      return Stack(
-        children: [
-          AnimatedPadding(
-            duration: const Duration(milliseconds: 300),
+//       return Stack(
+//         children: [
+//           AnimatedPadding(
+//             duration: const Duration(milliseconds: 300),
 
-            padding: EdgeInsets.only(top: selectionMode ? 76 : 0),
+//             padding: EdgeInsets.only(top: selectionMode ? 76 : 0),
 
-            child: ListView.builder(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+//             child: ListView.builder(
+//               padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
 
-              itemCount: contacts.length,
+//               itemCount: contacts.length,
 
-              itemBuilder: (context, index) {
-                final contact = contacts[index];
+//               itemBuilder: (context, index) {
+//                 final contact = contacts[index];
 
-                final isSelected = selectedIndexes.contains(index);
+//                 final isSelected = selectedIndexes.contains(index);
 
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
+//                 return Padding(
+//                   padding: const EdgeInsets.only(bottom: 12),
 
-                  child: Slidable(
-                    enabled: !selectionMode,
+//                   child: Slidable(
+//                     enabled: !selectionMode,
 
-                    key: ValueKey(contact.id),
+//                     key: ValueKey(contact.id),
 
-                    startActionPane: ActionPane(
-                      motion: const StretchMotion(),
+//                     startActionPane: ActionPane(
+//                       motion: const StretchMotion(),
 
-                      children: [
-                        SlidableAction(
-                          onPressed: (_) async {
-                            await FlutterPhoneDirectCaller.callNumber(
-                              contact.phone,
-                            );
-                          },
+//                       children: [
+//                         SlidableAction(
+//                           onPressed: (_) async {
+//                             await FlutterPhoneDirectCaller.callNumber(
+//                               contact.phone,
+//                             );
+//                           },
 
-                          backgroundColor: Colors.green,
+//                           backgroundColor: Colors.green,
 
-                          foregroundColor: Colors.white,
+//                           foregroundColor: Colors.white,
 
-                          icon: Icons.call,
+//                           icon: Icons.call,
 
-                          label: "Call",
-                        ),
-                      ],
-                    ),
+//                           label: "Call",
+//                         ),
+//                       ],
+//                     ),
 
-                    endActionPane: ActionPane(
-                      motion: const DrawerMotion(),
+//                     endActionPane: ActionPane(
+//                       motion: const DrawerMotion(),
 
-                      extentRatio: 0.50,
+//                       extentRatio: 0.25,
 
-                      children: [
-                        SlidableAction(
-                          onPressed: (_) {
-                            Get.to(
-                              () => AddEditContactPage(
-                                isEdit: true,
-                                contact: contact,
-                              ),
-                            );
-                          },
+//                       children: [
+//                         SlidableAction(
+//                           onPressed: (_) async {
+//                             await contactController.toggleFavourite(contact);
+//                           },
 
-                          backgroundColor: Colors.blue,
+//                           backgroundColor: Colors.red,
 
-                          foregroundColor: Colors.white,
+//                           foregroundColor: Colors.white,
 
-                          icon: Icons.edit,
+//                           icon: Icons.favorite_border,
 
-                          label: "Edit",
-                        ),
+//                           label: "Remove",
+//                         ),
+//                       ],
+//                     ),
 
-                        SlidableAction(
-                          onPressed: (_) async {
-                            await contactController.toggleFavourite(contact);
-                          },
+//                     child: ContactCard(
+//                       contact: contact,
 
-                          backgroundColor: Colors.red,
+//                       isSelected: isSelected,
 
-                          foregroundColor: Colors.white,
+//                       selectionMode: selectionMode,
 
-                          icon: Icons.favorite_border,
+//                       onTap: () {
+//                         if (selectionMode) {
+//                           toggleSelection(index);
 
-                          label: "Remove",
-                        ),
-                      ],
-                    ),
+//                           return;
+//                         }
 
-                    child: ContactCard(
-                      contact: contact,
+//                         Get.to(() => ContactDetailPage(contact: contact));
+//                       },
 
-                      isSelected: isSelected,
+//                       onLongPress: () {
+//                         startSelection(index);
+//                       },
+//                     ),
+//                   ),
+//                 );
+//               },
+//             ),
+//           ),
 
-                      selectionMode: selectionMode,
+//           AnimatedPositioned(
+//             duration: const Duration(milliseconds: 300),
 
-                      onTap: () {
-                        if (selectionMode) {
-                          toggleSelection(index);
+//             top: selectionMode ? 0 : -80,
 
-                          return;
-                        }
+//             left: 0,
+//             right: 0,
 
-                        Get.to(() => ContactDetailPage(contact: contact));
-                      },
+//             child: SelectionToolbar(
+//               selectedCount: selectedIndexes.length,
 
-                      onLongPress: () {
-                        startSelection(index);
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+//               totalCount: contacts.length,
 
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 300),
+//               onClose: clearSelection,
 
-            top: selectionMode ? 0 : -80,
+//               onSelectAll: () {
+//                 setState(() {
+//                   selectedIndexes.clear();
 
-            left: 0,
-            right: 0,
+//                   for (int i = 0; i < contacts.length; i++) {
+//                     selectedIndexes.add(i);
+//                   }
+//                 });
+//               },
 
-            child: SelectionToolbar(
-              selectedCount: selectedIndexes.length,
+//               onAction: () async {
+//                 final selectedContacts = selectedIndexes
+//                     .map((index) => contacts[index])
+//                     .toList();
 
-              totalCount: contacts.length,
+//                 for (final contact in selectedContacts) {
+//                   await contactController.toggleFavourite(contact);
+//                 }
 
-              onClose: clearSelection,
+//                 clearSelection();
+//               },
 
-              onSelectAll: () {
-                setState(() {
-                  selectedIndexes.clear();
+//               actionIcon: Icons.heart_broken_outlined,
 
-                  for (int i = 0; i < contacts.length; i++) {
-                    selectedIndexes.add(i);
-                  }
-                });
-              },
-
-              onAction: () async {
-                final selectedContacts = selectedIndexes
-                    .map((index) => contacts[index])
-                    .toList();
-
-                for (final contact in selectedContacts) {
-                  await contactController.toggleFavourite(contact);
-                }
-
-                clearSelection();
-              },
-
-              actionIcon: Icons.heart_broken_outlined,
-
-              actionTooltip: "Remove Favourite",
-            ),
-          ),
-        ],
-      );
-    });
-  }
-}
+//               actionTooltip: "Remove Favourite",
+//             ),
+//           ),
+//         ],
+//       );
+//     });
+//   }
+// }

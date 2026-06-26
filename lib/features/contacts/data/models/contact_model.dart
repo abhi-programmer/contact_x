@@ -13,43 +13,39 @@ class ContactModel extends Contact {
     required super.isFavourite,
   });
 
-  factory ContactModel.fromEntity(Contact contact) {
+  factory ContactModel.fromMap(Map<String, dynamic> map) {
+    final displayName = (map['displayName'] ?? '') as String;
+    final nameParts = displayName.trim().split(' ');
+
+    final firstName = nameParts.isNotEmpty ? nameParts.first : '';
+    final lastName = nameParts.length > 1
+        ? nameParts.sublist(1).join(' ')
+        : '';
+
     return ContactModel(
-      id: contact.id,
-      firstName: contact.firstName,
-      lastName: contact.lastName,
-      company: contact.company,
-      jobTitle: contact.jobTitle,
-      email: contact.email,
-      phone: contact.phone,
-      notes: contact.notes,
-      isFavourite: contact.isFavourite,
+      id: (map['id'] ?? '').toString(),
+      firstName: firstName,
+      lastName: lastName,
+      company: '',
+      jobTitle: '',
+      email: (map['email'] ?? '') as String,
+      phone: (map['phone'] ?? '') as String,
+      notes: '',
+      isFavourite: false,
     );
   }
 
-  factory ContactModel.fromJson(Map<String, dynamic> json) {
-    return ContactModel(
-      id: json["id"] ?? "",
-      firstName: json["firstName"] ?? "",
-      lastName: json["lastName"] ?? "",
-      company: json["company"] ?? "",
-      jobTitle: json["jobTitle"] ?? "",
-      email: json["email"] ?? "",
-      phone: json["phone"] ?? "",
-      notes: json["notes"] ?? "",
-      isFavourite: json["isFavourite"] ?? false,
+  Contact toEntity() {
+    return Contact(
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      company: company,
+      jobTitle: jobTitle,
+      email: email,
+      phone: phone,
+      notes: notes,
+      isFavourite: isFavourite,
     );
   }
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "firstName": firstName,
-    "lastName": lastName,
-    "company": company,
-    "jobTitle": jobTitle,
-    "email": email,
-    "phone": phone,
-    "notes": notes,
-    "isFavourite": isFavourite,
-  };
 }

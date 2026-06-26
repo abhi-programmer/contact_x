@@ -1,189 +1,37 @@
-# ContactX
+[√] Flutter (Channel stable, 3.44.2, on Microsoft Windows [Version 10.0.26200.8655], locale en-IN) [259ms]
+    • Flutter version 3.44.2 on channel stable at C:\src\flutter
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision c9a6c48423 (2 weeks ago), 2026-06-10 15:52:41 -0700
+    • Engine revision 77e2e94772
+    • Dart version 3.12.2
+    • DevTools version 2.57.0
+    • Feature flags: enable-web, enable-linux-desktop, enable-macos-desktop, enable-windows-desktop, enable-android, enable-ios, cli-animations, enable-native-assets,
+      enable-swift-package-manager, omit-legacy-version-file, enable-lldb-debugging, enable-uiscene-migration
 
-A Flutter contact management application built with GetX, Firebase Firestore, Repository Pattern, and Clean Architecture principles.
+[√] Windows Version (Windows 11 or higher, 25H2, 2009) [862ms]
 
-## Features
+[!] Android toolchain - develop for Android devices (Android SDK version 36.1.0) [360ms]
+    • Android SDK at C:\Users\MANU DESAI\AppData\Local\Android\sdk
+    • Emulator version 36.6.11.0 (build_id 15507667) (CL:N/A)
+    • Platform android-36.1, build-tools 36.1.0
+    X Android SDK location currently contains spaces, which is not supported by the Android SDK as it causes problems with NDK tools. Try moving it from C:\Users\MANU
+      DESAI\AppData\Local\Android\sdk to a path without spaces.
+    • Try re-installing or updating your Android SDK,
+      visit https://flutter.dev/to/windows-android-setup for detailed instructions.
 
-- Create Contact
-- Update Contact
-- Delete Contact
-- View Contact Details
-- Mark / Unmark Favourite Contacts
-- Real-time Firestore Synchronization
-- Reactive UI using GetX
-- Unit Tested Business Logic
+[√] Chrome - develop for the web [12ms]
+    • Chrome at C:\Program Files\Google\Chrome\Application\chrome.exe
 
----
+[X] Visual Studio - develop Windows apps [11ms]
+    X Visual Studio not installed; this is necessary to develop Windows apps.
+      Download at https://visualstudio.microsoft.com/downloads/.
+      Please install the "Desktop development with C++" workload, including all of its default components
 
-## Architecture
+[√] Connected device (4 available) [361ms]
+    • sdk gphone16k x86 64 (mobile) • emulator-5554 • android-x64    • Android 17 (API 37) (emulator)
+    • Windows (desktop)             • windows       • windows-x64    • Microsoft Windows [Version 10.0.26200.8655]
+    • Chrome (web)                  • chrome        • web-javascript • Google Chrome 149.0.7827.156
+    • Edge (web)                    • edge          • web-javascript • Microsoft Edge 149.0.4022.80
 
-The project follows a layered architecture to improve maintainability, scalability, and testability.
-
-```text
-Presentation Layer
-│
-├── UI
-├── Controllers
-│
-Domain Layer
-│
-├── Entities
-├── Repository Contracts
-├── Use Cases
-│
-Data Layer
-│
-├── Models
-├── Repository Implementations
-├── Firebase Data Sources
-│
-Firebase Firestore
-```
-
-### Flow
-
-```text
-UI
- ↓
-Controller
- ↓
-UseCase
- ↓
-Repository
- ↓
-DataSource
- ↓
-Firestore
-```
-
----
-
-## Tech Stack
-
-- Flutter
-- Dart
-- GetX
-- Firebase Firestore
-- Repository Pattern
-- Clean Architecture
-- Mocktail
-- Flutter Test
-
----
-
-## Project Structure
-
-```text
-lib/
-│
-├── bindings/
-│
-├── core/
-│
-├── features/
-│   └── contacts/
-│       ├── data/
-│       │   ├── datasource/
-│       │   ├── models/
-│       │   └── repositories/
-│       │
-│       ├── domain/
-│       │   ├── entities/
-│       │   ├── repositories/
-│       │   └── usecases/
-│       │
-│       └── presentation/
-│           ├── controllers/
-│           ├── pages/
-│           └── widgets/
-│
-└── main.dart
-```
-
----
-
-## State Management
-
-GetX is used for:
-
-- State Management
-- Dependency Injection
-- Navigation
-- Reactive UI Updates
-
----
-
-## Testing
-
-The following unit tests have been implemented:
-
-- ContactModel Serialization Tests
-- AddContactUseCase Tests
-- UpdateContactUseCase Tests
-- DeleteContactUseCase Tests
-- GetContactsUseCase Tests
-
-Run tests:
-
-```bash
-flutter test
-```
-
----
-
-## Static Analysis
-
-Run code analysis:
-
-```bash
-flutter analyze
-```
-
-Format code:
-
-```bash
-dart format lib test
-```
-
----
-
-## Getting Started
-
-### Install Dependencies
-
-```bash
-flutter pub get
-```
-
-### Run Application
-
-```bash
-flutter run
-```
-
-### Build APK
-
-```bash
-flutter build apk --release
-```
-
----
-
-## Key Improvements
-
-This version includes:
-
-- Improved project structure
-- Use Case based business logic separation
-- Repository abstraction
-- Enhanced maintainability
-- Unit testing coverage
-- Better scalability for future features
-
----
-
-## Author
-
-Abhay Sananse
-
-Senior Flutter Developer
+[√] Network resources [1,415ms]
+    • All expected network resources are available.

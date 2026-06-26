@@ -12,14 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # Firebase
-  firebase_auth: ^6.5.2
-  firebase_core: ^4.10.0
-  google_sign_in: ^7.2.0
-  cloud_firestore: ^6.5.0
-
   # Local DB
   shared_preferences: ^2.5.5
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
   # Launcher Icon
   flutter_launcher_icons: ^0.14.4
@@ -33,7 +29,7 @@ dependencies:
   # other
   uuid: ^4.5.3
   flutter_phone_direct_caller: ^2.2.1
-  permission_handler: ^12.0.3
+  flutter_contacts: ^1.1.9
 
 dev_dependencies:
   flutter_test:
